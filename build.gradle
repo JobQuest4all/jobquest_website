@@ -29,7 +29,8 @@ dependencies {
 	compile 'org.apache.logging.log4j:log4j-core:2.8.1'
 	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.1'
 	compile 'org.slf4j:slf4j-api:1.7.24'
-	compile files("${project.buildDir}/resources/**/*")
+	compile files("${project.buildDir}/resources", "${project.buildDir}/config")
+	compile 'com.sparkjava:spark-template-thymeleaf:2.5.5'
 
     // Use the latest Groovy version for Spock testing
     testCompile 'org.codehaus.groovy:groovy-all:2.4.7'
@@ -40,4 +41,4 @@ dependencies {
 }
 
 // Define the main class for the application
-mainClassName = 'com.easylime.Driver'
+mainClassName = 'com.jobquest.Driver'
