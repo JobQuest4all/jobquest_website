@@ -27,7 +27,6 @@ public class Driver {
 		final ModelAndView map = new ModelAndView(new HashMap<String,String>(), "index");
 		
 		get("/", (req, resp) -> map, engine);
-		get("/jobquest", (req, resp) -> map, engine);
 	}
 	
     public static void main(String[] args) throws IOException {
