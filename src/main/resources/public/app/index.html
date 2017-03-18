@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="jobquestApp">
+<head>
+
+<!-- angular js -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js"></script>
+
+<script src="app.module.js"></script>
+<script src="app.config.js"></script>
+<script src="core/core.module.js"></script>
+<script src="core/people/people.module.js"</script>
+<script src="core/people/user.model.js"></script>
+<script src="core/people/person.model.js"></script>
+<script src="core/people/candidate.model.js"></script>
+<script src="welcome/welcome.module.js"></script>
+<script src="welcome/welcome.component.js"></script>
+<script src="dashboard/dashboard.module.js"></script>
+<script src="dashboard/dashboard.component.js"></script>
+
+</head>
+<body>
+<div ng-view></div>
+</body>
+</html>
