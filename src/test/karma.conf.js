@@ -17,13 +17,13 @@ module.exports = function(config) {
     files: [
         { pattern: '../main/resources/public/app/lib/angular/1.6.3/angular.min.js', watched: false},
         { pattern: '../main/resources/public/app/lib/angular/1.6.3/*.js', watched: false},
+        { pattern: 'resources/public/app/lib/jquery/3.2.0/*.js', watched: false},
         { pattern: 'resources/public/app/lib/**/*.js', watched: false},
         { pattern: '../main/resources/public/app/core/people/people.module.js', watched: false},
         { pattern: '../main/resources/public/app/core/people/user.model.js', watched: false},
         { pattern: '../main/resources/public/app/core/people/person.model.js', watched: false},
         { pattern: '../main/resources/public/app/core/people/candidate.model.js', watched: false},
-        { pattern: '../main/resources/public/app/**/*mock.js', watched: false},
-        { pattern: 'resources/public/app/**/*spec.js', watched: false}
+        { pattern: 'resources/public/**/*spec.js', watched: false}
     ],
 
 

@@ -1,22 +1,34 @@
 angular
 .module('core.people')
 .factory('User', ['$resource',function($resource){
-	return function(){
+	return function(params){
 		var self=this;
 		var username='', password='';
+
+		(function init(){
+			if(params && params.username){
+				self.setUsername(params.username);
+			}
+
+			if(params && params.password){
+				self.setPassword(params.password);
+			}
+		})();
 
 		this.getUsername=function(){return username; };
 		this.getPassword=function(){return password; };
 
-		this.setUsername=function(username) { self.username=username; };
-		this.setPassword=function(password) { self.password=password; };
+		this.setUsername=function(usernameInput) { username = usernameInput; };
+		this.setPassword=function(passwordInput) { password = passwordInput; };
 
 		this.login=function(){
-			throw 'Not implemented';
+			$resource('/security/login')
+			.save({username: username, password: password});
 		};
 
-		this.create=function(){
-			throw 'Not implemented';
+		this.save=function(){
+			$resource('/security/createNewUser')
+			.save({username: username, password: password});
 		};
 	};
 }]);
