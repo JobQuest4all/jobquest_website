@@ -3,30 +3,30 @@ const Server = require('karma').Server;
 const express = require('express');
 const app = express();
 const rest = require('restler');
-const varstring = require("varstring")
+const varstring = require('varstring');
+const WebService = require('./resources/public/app/core/webservice/webservice');
+const UsersMock = require('./resources/public/app/core/webservice/users.mock');
+const CandidatesMock = require('./resources/public/app/core/webservice/candidates.mock');
 
-let mockWebService=null;
-const mockWebServicePort=8080;
+var webService = null;
 
 gulp.task('bootstrap', function(){
-	
+	webService = new WebService({ app: app, port: 8080})
+	.addMock(new UsersMock({app: app}))
+	.addMock(new CandidatesMock({app: app}))
+	.start();	
 });
 
-gulp.task('test.init', ['bootstrap'], function(done){
-	app.get('/ping', function (req, res) {
-  		res.json({hello: 'World!'});
-	});
+gulp.task('test.check', ['bootstrap'], function(done){
+	const pingRoute = varstring('http://localhost:{0}/ping', webService.getPort());
 
-	mockWebService=app.listen(mockWebServicePort);
-
-	rest.get('http://localhost:8080/ping').on('fail', function(data){
+	rest.get(pingRoute).on('fail', function(data){
 		throw 'Ping not called!';
 		done();
 	});
 
-	rest.get('http://localhost:8080/ping').on('success', function(data){
+	rest.get(pingRoute).on('success', function(data){
 		if(typeof data == 'object' && data.hello == 'World!'){
-			console.log(varstring('Mock web service is running on port {0}',mockWebServicePort));
 			done();
 		}
 	});
@@ -35,12 +35,12 @@ gulp.task('test.init', ['bootstrap'], function(done){
 /**
  * Run test once and exit
  */
-gulp.task('test.run', ['test.init'], function (done) {
+gulp.task('test.run', ['test.check'], function (done) {
   new Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, function(){
-  	mockWebService.close();
+  	webService.stop();
   	done();
   	process.exit(); // prevent Gulp from hanging
   }).start();
