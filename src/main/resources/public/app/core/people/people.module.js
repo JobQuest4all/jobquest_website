@@ -1,1 +1,1 @@
-angular.module('core.people', ['ngResource']);
+angular.module('core.people', ['core.settings','ngResource']);

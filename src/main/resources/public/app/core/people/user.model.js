@@ -1,9 +1,36 @@
 angular
 .module('core.people')
-.factory('User', ['$resource',function($resource){
-	return function(params){
+.factory('User', ['$resource', 'baseUrl',function($resource, baseUrl){
+	return function User(params){
 		var self=this;
-		var username='', password='';
+		var username='', password='', accessToken='';
+		var usersPath = baseUrl + '/users';
+
+		self.getUsername=function(){return username; };
+		self.getPassword=function(){return password; };
+		self.getAccessToken=function(){ return accessToken; };
+
+		self.setUsername=function(usernameInput) { username = usernameInput; };
+		self.setPassword=function(passwordInput) { password = passwordInput; };
+		self.setAccessToken=function(accessTokenInput){ accessToken = accessTokenInput; };
+
+		self.login=function(listeners){
+			return $resource(usersPath+'/login')
+			.save({},{
+					username: username, 
+					password: password},listeners.success, listeners.error);
+
+			return self;
+		};
+
+		self.save=function(listeners){
+			return $resource(usersPath)
+			.save({},{
+					username: username, 
+					password: password}, listeners.success, listeners.error);
+
+			return self;
+		};
 
 		(function init(){
 			if(params && params.username){
@@ -14,21 +41,5 @@ angular
 				self.setPassword(params.password);
 			}
 		})();
-
-		this.getUsername=function(){return username; };
-		this.getPassword=function(){return password; };
-
-		this.setUsername=function(usernameInput) { username = usernameInput; };
-		this.setPassword=function(passwordInput) { password = passwordInput; };
-
-		this.login=function(){
-			$resource('/security/login')
-			.save({username: username, password: password});
-		};
-
-		this.save=function(){
-			$resource('/security/createNewUser')
-			.save({username: username, password: password});
-		};
 	};
 }]);
